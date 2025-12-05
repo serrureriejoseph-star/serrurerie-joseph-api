@@ -36,7 +36,7 @@ app.post("/request", express.json(), async (req, res) => {
       service: "gmail",
       auth: {
         user: "contact@serrureriejoseph.fr",
-        pass: "vawh shma dmeq live"
+        pass: "vawhshmadmeqlive"
       }
     });
 
