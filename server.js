@@ -1,26 +1,30 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 app.use(cors());
-app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Serrurerie Joseph API is running");
-});
+// Servir tous les fichiers statiques à la racine
+app.use(express.static(path.join(__dirname)));
 
+// Endpoint status
 app.get("/status", (req, res) => {
-  res.json({ service: "Serrurerie Joseph", available: true });
+  res.json({ status: "Serrurerie Joseph API is running" });
 });
 
+// Endpoint contact
 app.get("/contact", (req, res) => {
   res.json({
-    nom: "Serrurerie Joseph",
-    telephone: "0695524683",
-    email: "contact@serrureriejoseph.fr"
+    phone: "06 95 52 46 83",
+    email: "contact@serrureriejoseph.fr",
+    site: "https://www.serrureriejoseph.fr"
   });
 });
 
-app.listen(3000, () => {
-  console.log("API running on port 3000");
+// Pour éviter les 404 sur les routes inconnues
+app.get("*", (req, res) => {
+  res.status(404).send("Not Found");
 });
+
+module.exports = app;
