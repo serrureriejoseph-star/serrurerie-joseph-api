@@ -2,12 +2,14 @@
   "version": 2,
   "builds": [
     { "src": "server.js", "use": "@vercel/node" },
-    { "src": "ai-plugin.json", "use": "@vercel/static" },
-    { "src": ".well-known/openapi.yaml", "use": "@vercel/static" }
+    { "src": "legal/*.html", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/ai-plugin.json", "dest": "/ai-plugin.json" },
-    { "src": "/\\.well-known/openapi.yaml", "dest": "/.well-known/openapi.yaml" },
-    { "src": "/(.*)", "dest": "/server.js" }
+    { "src": "/status", "dest": "/server.js" },
+    { "src": "/contact", "dest": "/server.js" },
+    { "src": "/request", "dest": "/server.js" },
+    { "src": "/\\.well-known/(.*)", "dest": "/.well-known/$1" },
+    { "src": "/legal/(.*)", "dest": "/legal/$1" },
+    { "src": "/ai-plugin\\.json", "dest": "/ai-plugin.json" }
   ]
 }
