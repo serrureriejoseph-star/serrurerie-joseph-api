@@ -1,72 +1,55 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const nodemailer = require("nodemailer");
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 // Servir les fichiers statiques
 app.use(express.static(path.join(__dirname)));
 
-// --- ROUTE STATUS ---
+// Status
 app.get("/status", (req, res) => {
   res.json({ status: "Serrurerie Joseph API is running" });
 });
 
-// --- ROUTE CONTACT ---
+// Contact
 app.get("/contact", (req, res) => {
   res.json({
     phone: "06 95 52 46 83",
     email: "contact@serrureriejoseph.fr",
-    site: "https://www.serrureriejoseph.fr"
+    site: "https://www.serrureriejoseph.fr",
+    emergency: "Disponible 24h/24 et 7j/7"
   });
 });
 
-// --- ROUTE REQUEST (ENVOI EMAIL) ---
-app.post("/request", express.json(), async (req, res) => {
-  const { name, phone, address, urgency, description } = req.body;
-
-  if (!name || !phone || !address || !urgency) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
-
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "contact@serrureriejoseph.fr",
-        pass: "vawhshmadmeqlive"
-      }
-    });
-
-    const mailOptions = {
-      from: `"Serrurerie Joseph" <contact@serrureriejoseph.fr>`,
-      to: "contact@serrureriejoseph.fr",
-      subject: "Nouvelle demande d’intervention Serrurerie Joseph",
-      text: `
-Nouvelle demande d'intervention :
-
-Nom : ${name}
-Téléphone : ${phone}
-Adresse : ${address}
-Urgence : ${urgency}
-
-Description :
-${description || "Aucune description fournie"}
-`
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    res.json({ success: true, message: "Email envoyé avec succès" });
-  } catch (error) {
-    console.error("Erreur d'envoi email :", error);
-    res.status(500).json({ error: "Email sending failed", details: error.toString() });
-  }
+// Endpoint service info (si ton GPT en a besoin)
+app.get("/services", (req, res) => {
+  res.json({
+    urgence: [
+      "Ouverture de porte claquée",
+      "Ouverture de porte fermée à clé",
+      "Serrure bloquée",
+      "Clé cassée",
+      "Clé qui tourne dans le vide"
+    ],
+    remplacement: [
+      "Changement de serrure",
+      "Remplacement cylindre",
+      "Serrure 3 points / 5 points / 7 points",
+      "Serrure Fichet, Bricard, Vachette, Héraclès, etc."
+    ],
+    blindage: [
+      "Blindage de porte",
+      "Cornières anti-pinces",
+      "Barre de pivot",
+      "Bloc porte blindé"
+    ]
+  });
 });
 
-// --- ROUTE 404 (à laisser en dernier) ---
+// 404
 app.get("*", (req, res) => {
   res.status(404).send("Not Found");
 });
