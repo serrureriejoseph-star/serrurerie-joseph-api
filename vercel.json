@@ -1,12 +1,11 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
+    { "src": "server.js", "use": "@vercel/node" }
   ],
   "routes": [
+    { "src": "/ai-plugin.json", "dest": "/ai-plugin.json" },
+    { "src": "/\\.well-known/openapi.yaml", "dest": "/.well-known/openapi.yaml" },
     { "src": "/(.*)", "dest": "/server.js" }
   ]
 }
