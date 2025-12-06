@@ -4,12 +4,11 @@
     { "src": "server.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/\\.well-known/(.*)", "dest": "/public/.well-known/$1" },
-    { "src": "/legal/(.*)", "dest": "/public/legal/$1" },
+    { "src": "/\\.well-known/(.*)", "dest": "public/.well-known/$1" },
+    { "src": "/legal/(.*)", "dest": "public/legal/$1" },
 
     { "src": "/status", "dest": "/server.js" },
     { "src": "/contact", "dest": "/server.js" },
     { "src": "/request", "dest": "/server.js" }
-  ],
-  "public": "public"
+  ]
 }
