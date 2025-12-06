@@ -1,0 +1,36 @@
+openapi: "3.0.1"
+info:
+  title: "Serrurerie Joseph API"
+  version: "1.0.0"
+paths:
+  /status:
+    get:
+      summary: "Check API status"
+      responses:
+        "200":
+          description: "API is running"
+  /contact:
+    get:
+      summary: "Get contact details"
+      responses:
+        "200":
+          description: "Contact information"
+  /request:
+    post:
+      summary: "Send a locksmith service request"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+                message:
+                  type: string
+      responses:
+        "200":
+          description: "Request sent"
