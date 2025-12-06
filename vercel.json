@@ -1,13 +1,17 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" }
+    { "src": "server.js", "use": "@vercel/node" },
+    { "src": "legal/*", "use": "@vercel/static" },
+    { "src": "ai-plugin.json", "use": "@vercel/static" },
+    { "src": ".well-known/*", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/status", "dest": "/server.js" },
     { "src": "/contact", "dest": "/server.js" },
     { "src": "/request", "dest": "/server.js" },
+    { "src": "/ai-plugin.json", "dest": "/ai-plugin.json" },
     { "src": "/\\.well-known/(.*)", "dest": "/.well-known/$1" },
-    { "src": "/ai-plugin\\.json", "dest": "/ai-plugin.json" }
+    { "src": "/legal/(.*)", "dest": "/legal/$1" }
   ]
 }
