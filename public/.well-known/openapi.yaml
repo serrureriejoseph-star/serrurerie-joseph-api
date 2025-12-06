@@ -1,22 +1,33 @@
-openapi: "3.0.1"
+openapi: "3.1.0"
+
 info:
   title: "Serrurerie Joseph API"
   version: "1.0.0"
+
+servers:
+  - url: "https://serrurerie-joseph-api-vchx.vercel.app"
+
 paths:
+
   /status:
     get:
+      operationId: getStatus
       summary: "Check API status"
       responses:
         "200":
           description: "API is running"
+
   /contact:
     get:
+      operationId: getContact
       summary: "Get contact details"
       responses:
         "200":
           description: "Contact information"
+
   /request:
     post:
+      operationId: sendRequest
       summary: "Send a locksmith service request"
       requestBody:
         required: true
