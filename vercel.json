@@ -9,9 +9,11 @@
     { "src": "/contact", "dest": "/server.js" },
     { "src": "/request", "dest": "/server.js" },
 
+    { "src": "/ai-plugin\\.json", "dest": "/ai-plugin.json" },
+
     { "src": "/\\.well-known/(.*)", "dest": "/public/.well-known/$1" },
     { "src": "/legal/(.*)", "dest": "/public/legal/$1" },
 
-    { "src": "/ai-plugin\\.json", "dest": "/ai-plugin.json" }
+    { "src": "/(.*)", "dest": "/server.js" }
   ]
 }
