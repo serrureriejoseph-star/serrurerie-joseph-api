@@ -4,16 +4,32 @@ const path = require("path");
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
-// Servir les fichiers statiques du dossier public
+// Servir tout le contenu du dossier public
 app.use(express.static(path.join(__dirname, "public")));
 
-// Endpoint /status
+// -------------------------
+// ROUTES POUR LE GPT STORE
+// -------------------------
+
+// Routes propres pour les pages légales (sans .html)
+app.get("/legal/privacy", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "legal", "privacy.html"));
+});
+
+app.get("/legal/terms", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "legal", "terms.html"));
+});
+
+// -------------------------
+// API ROUTES
+// -------------------------
+
 app.get("/status", (req, res) => {
   res.json({ status: "Serrurerie Joseph API is running" });
 });
 
-// Endpoint /contact
 app.get("/contact", (req, res) => {
   res.json({
     phone: "06 95 52 46 83",
@@ -22,17 +38,25 @@ app.get("/contact", (req, res) => {
   });
 });
 
-// Endpoint /request (réponses automatiques)
-app.get("/request", (req, res) => {
+app.post("/request", (req, res) => {
+  const { name, phone, message } = req.body;
+
+  if (!name || !phone || !message) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
+
   res.json({
-    message:
-      "Merci pour votre demande ! Un serrurier vous rappellera très rapidement. Pour une urgence, appelez directement le 06 95 52 46 83."
+    success: true,
+    message: "Request received. The locksmith will contact you shortly."
   });
 });
 
-// Catch-all 404
-app.get("*", (req, res) => {
-  res.status(404).send("Not Found");
+// -------------------------
+// LOCAL SERVER (DEV ONLY)
+// -------------------------
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Serrurerie Joseph API running locally on port ${PORT}`);
 });
 
 module.exports = app;
